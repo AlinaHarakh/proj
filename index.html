@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Parse</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Oswald:wght@300;700&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<header></header>
+
+	<main class="main">
+
+		<section class="info" id="info">
+			<div class="container">
+				<div class="info__inner">
+					<div class="info-item" id="name">
+						<h2 class="title">Имя:</h2>
+						<ul class="names">
+						</ul>
+					</div>
+					<div class="info-item" id="surname">
+						<h2 class="title">Фамилия:</h2>
+						<ul class="surnames">
+						</ul>
+					</div>
+					<div class="info-item" id="age">
+						<h2 class="title">Возраст:</h2>
+						<ul class="ages">
+						</ul>
+					</div>
+				</div>
+			
+			</div>
+		</section>
+
+	</main>
+	<footer class="footer">
+	</footer>
+
+
+	<script>
+		// Array of JSON files to fetch
+		const jsonFiles = ['info.json', 'people.json', 'content.json'];
+
+		// Function to fetch and process JSON data
+		const fetchAndProcessData = (file) => {
+				fetch(file)
+						.then(response => response.json())
+						.then(data => {
+								// Sort people by name
+								data.people.sort((a, b) => a.name.localeCompare(b.name));
+
+								// Output sorted data in the specified HTML format
+								const namesList = document.querySelector('.names');
+								const surnamesList = document.querySelector('.surnames');
+								const agesList = document.querySelector('.ages');
+
+								data.people.forEach(person => {
+										const nameItem = document.createElement('li');
+										nameItem.textContent = person.name;
+										namesList.appendChild(nameItem);
+
+										const surnameItem = document.createElement('li');
+										surnameItem.textContent = person.surname;
+										surnamesList.appendChild(surnameItem);
+
+										const ageItem = document.createElement('li');
+										ageItem.textContent = person.age;
+										agesList.appendChild(ageItem);
+								});
+						})
+						.catch(error => console.error('Error reading the file:', error));
+		};
+
+			// Loop through the array of JSON files and fetch/process each one
+			jsonFiles.forEach(file => {
+					fetchAndProcessData(file);
+			});
+	</script>
+</body>
+
+</html>
